@@ -80,6 +80,9 @@
     const sumOutput = document.getElementById("sum");
 
     function changeValue(index, delta) {
+      if (navigator.vibrate) {
+        navigator.vibrate(10);
+      }
       inputs[index].value = Number(inputs[index].value) + delta;
       updateSum();
     }
