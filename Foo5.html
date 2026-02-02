@@ -84,6 +84,9 @@
         navigator.vibrate(10);
       }
       inputs[index].value = Number(inputs[index].value) + delta;
+      if (inputs[index].value < 0) {
+        inputs[index].value = 0;
+      }
       updateSum();
     }
 
