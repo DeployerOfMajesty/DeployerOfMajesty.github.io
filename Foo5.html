@@ -2,28 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Five Number Sum</title>
+
   <style>
     body {
       font-family: sans-serif;
-      padding: 20px;
+      padding: 16px;
+      font-size: 1.2rem;
     }
 
     .row {
-      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
     button {
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
       cursor: pointer;
     }
 
     input[type="number"] {
-      width: 80px;
+      width: 90px;
+      font-size: 1.2rem;
       text-align: center;
-      margin: 0 5px;
+    }
+
+    #sum {
+      font-weight: bold;
     }
   </style>
 </head>
@@ -60,7 +71,7 @@
   </div>
 
   <div class="row">
-    <strong>Sum:</strong>
+    <strong>Sum</strong>
     <input type="number" id="sum" value="0" readonly>
   </div>
 
