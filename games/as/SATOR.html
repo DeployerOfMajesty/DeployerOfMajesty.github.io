@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Five Number Sum</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 16px;
+      font-size: 1.2rem;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input[type="number"] {
+      width: 90px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    #sum {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="row">
+    <strong>SATOR Calculator</strong>
+  </div>
+
+  <div class="row">
+    <strong>S</strong>
+    <input type="number" class="num" value="0" readonly>
+    <button onclick="changeValue(0, 1)">+</button>
+    <button onclick="changeValue(0, -1)">−</button>
+  </div>
+
+  <div class="row">
+    <strong>A</strong>
+    <input type="number" class="num" value="0" readonly>
+    <button onclick="changeValue(1, 1)">+</button>
+    <button onclick="changeValue(1, -1)">−</button>
+  </div>
+
+  <div class="row">
+    <strong>T</strong>
+    <input type="number" class="num" value="0" readonly>
+    <button onclick="changeValue(2, 1)">+</button>
+    <button onclick="changeValue(2, -1)">−</button>
+  </div>
+
+  <div class="row">
+    <strong>O</strong>
+    <input type="number" class="num" value="0" readonly>
+    <button onclick="changeValue(3, 1)">+</button>
+    <button onclick="changeValue(3, -1)">−</button>
+  </div>
+
+  <div class="row">
+    <strong>R</strong>
+    <input type="number" class="num" value="0" readonly>
+    <button onclick="changeValue(4, 1)">+</button>
+    <button onclick="changeValue(4, -1)">−</button>
+  </div>
+
+  <div class="row">
+    <strong>Sum</strong>
+    <input type="number" id="sum" value="0" readonly>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll(".num");
+    const sumOutput = document.getElementById("sum");
+
+    function changeValue(index, delta) {
+      if (navigator.vibrate) {
+        navigator.vibrate(10);
+      }
+      inputs[index].value = Number(inputs[index].value) + delta;
+      if (inputs[index].value < 0) {
+        inputs[index].value = 0;
+      }
+      updateSum();
+    }
+
+    function updateSum() {
+      let total = 0;
+      inputs.forEach(input => {
+        total += Number(input.value);
+      });
+      sumOutput.value = total;
+    }
+  </script>
+
+</body>
+</html>

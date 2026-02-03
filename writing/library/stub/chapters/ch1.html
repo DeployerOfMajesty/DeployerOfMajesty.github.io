@@ -1,0 +1,19 @@
+<head>
+  <!-- Optional styling for .xbbcode-* classes -->
+  <link rel="stylesheet" type="text/css" href="../../../xbbcode/xbbcode.css">
+</head>
+<body>
+  <div id="output"></div>
+
+<script src="ch1.js"></script>
+<script src="../../../xbbcode/xbbcode.js"></script>
+<script>
+const result = XBBCODE.process({
+  text: window.BBCODE_DOC,
+  addInLineBreaks: true
+});
+
+document.getElementById("output").innerHTML = result.html;
+</script>
+
+</body>
