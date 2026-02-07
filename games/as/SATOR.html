@@ -58,6 +58,13 @@
         border-color: #ccc;
       }
 
+      .choice-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
       .label {
         width: 32px;
         text-align: right;
@@ -124,12 +131,12 @@
       <div class="row fixed-row" data-index="4" data-default="0">
         <strong class="label">R</strong>
         <input type="number" class="num" value="0" readonly />
-
-        <button class="choice active" data-value="0">Close</button>
-        <button class="choice" data-value="2">Medium</button>
-        <button class="choice" data-value="4">Long</button>
+        <div class="choice-group">
+          <button class="choice active" data-value="0">Close</button>
+          <button class="choice" data-value="2">Medium</button>
+          <button class="choice" data-value="4">Long</button>
+        </div>
       </div>
-
       <div class="summary">
         <strong>Sum</strong>
         <input type="number" id="sum" value="0" readonly />
