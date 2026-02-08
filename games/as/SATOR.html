@@ -101,6 +101,12 @@
         width: 3ch;
         min-width: 3ch;
       }
+      #probabilityOutput {
+        font-weight: bold;
+        width: 6ch;
+        min-width: 6ch;
+      }
+
     </style>
   </head>
   <body>
@@ -151,12 +157,43 @@
       <div class="summary">
         <strong>Sum</strong>
         <output id="sum">0</output>
+<output id="probabilityOutput">0</output>
         <button onclick="resetAll()">🔄</button>
       </div>
     </div>
     <script>
       const values = document.querySelectorAll(".value");
       const sumOutput = document.getElementById("sum");
+
+const D2D6_COUNTS = {
+  2: 1,
+  3: 2,
+  4: 3,
+  5: 4,
+  6: 5,
+  7: 6,
+  8: 5,
+  9: 4,
+  10: 3,
+  11: 2,
+  12: 1,
+};
+const TOTAL_ROLLS = 36;
+function probabilityExact(target) {
+  return (D2D6_COUNTS[target] || 0) / TOTAL_ROLLS;
+}
+function probabilityAtLeast(target) {
+  let success = 0;
+
+  for (let sum = target; sum <= 12; sum++) {
+    success += D2D6_COUNTS[sum] || 0;
+  }
+
+  return success / TOTAL_ROLLS;
+}
+
+
+
 
       document.querySelectorAll(".row").forEach((row) => {
         const defaultValue = row.dataset.default;
@@ -183,12 +220,17 @@
       }
 
       function updateSum() {
-        let total = 0;
-        values.forEach((valueEl) => {
-          total += Number(valueEl.textContent);
-        });
-        sumOutput.textContent = total;
-      }
+  let total = 0;
+  document.querySelectorAll(".value").forEach((el) => {
+    total += Number(el.textContent);
+  });
+
+  sumOutput.textContent = total;
+
+  const p = probabilityAtLeast(total);
+  probabilityOutput.textContent = `${(p * 100).toFixed(1)}%`;
+}
+
 
       function resetAll() {
         document.querySelectorAll(".row").forEach((row) => {
