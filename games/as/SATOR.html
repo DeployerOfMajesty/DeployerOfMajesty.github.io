@@ -65,6 +65,12 @@
         align-items: center;
       }
 
+      .choice-select {
+        height: 48px;
+        font-size: 1rem;
+        padding: 4px 8px;
+      }
+
       .label {
         width: 32px;
         text-align: right;
@@ -83,14 +89,17 @@
         justify-content: center;
       }
 
-      input[type="number"] {
-        width: 90px;
+      output {
+        width: 3ch;
+        min-width: 3ch;
         font-size: 1.2rem;
         text-align: center;
       }
 
       #sum {
         font-weight: bold;
+        width: 3ch;
+        min-width: 3ch;
       }
     </style>
   </head>
@@ -102,103 +111,99 @@
 
       <div class="row">
         <strong class="label">S</strong>
-        <input type="number" class="num" value="0" readonly />
+        <output class="value">0</output>
         <button onclick="changeValue(0, 1)">+</button>
         <button onclick="changeValue(0, -1)">−</button>
       </div>
 
       <div class="row">
         <strong class="label">A</strong>
-        <input type="number" class="num" value="0" readonly />
+        <output class="value">0</output>
         <button onclick="changeValue(1, 1)">+</button>
         <button onclick="changeValue(1, -1)">−</button>
       </div>
 
       <div class="row">
         <strong class="label">T</strong>
-        <input type="number" class="num" value="0" readonly />
+        <output class="value">0</output>
         <button onclick="changeValue(2, 1)">+</button>
         <button onclick="changeValue(2, -1)">−</button>
       </div>
 
       <div class="row">
         <strong class="label">O</strong>
-        <input type="number" class="num" value="0" readonly />
+        <output class="value">0</output>
         <button onclick="changeValue(3, 1)">+</button>
         <button onclick="changeValue(3, -1)">−</button>
       </div>
 
       <div class="row fixed-row" data-index="4" data-default="0">
         <strong class="label">R</strong>
-        <input type="number" class="num" value="0" readonly />
-        <div class="choice-group">
-          <button class="choice active" data-value="0">Close</button>
-          <button class="choice" data-value="2">Medium</button>
-          <button class="choice" data-value="4">Long</button>
-        </div>
+        <output class="value">0</output>
+        <select class="choice-select">
+          <option value="0">Short</option>
+          <option value="2">Medium</option>
+          <option value="4">Long</option>
+          <option value="6">Extreme</option>
+          <option value="8">Horizon</option>
+        </select>
       </div>
       <div class="summary">
         <strong>Sum</strong>
-        <input type="number" id="sum" value="0" readonly />
+        <output id="sum">0</output>
         <button onclick="resetAll()">🔄</button>
       </div>
     </div>
     <script>
-      const inputs = document.querySelectorAll(".num");
+      const values = document.querySelectorAll(".value");
       const sumOutput = document.getElementById("sum");
 
       function changeValue(index, delta) {
         if (navigator.vibrate) navigator.vibrate(10);
-        inputs[index].value = Math.max(0, Number(inputs[index].value) + delta);
+        values[index].textContent = Math.max(
+          0,
+          Number(values[index].textContent) + delta,
+        );
         updateSum();
       }
 
       function updateSum() {
         let total = 0;
-        inputs.forEach((input) => {
-          total += Number(input.value);
+        values.forEach((valueEl) => {
+          total += Number(valueEl.textContent);
         });
-        sumOutput.value = total;
+        sumOutput.textContent = total;
       }
 
       function resetAll() {
-        // Reset numeric inputs
-        inputs.forEach((input) => {
-          input.value = 0;
+        values.forEach((valueEl) => {
+          valueEl.textContent = 0;
         });
 
-        //Reset fixed-choice rows to their defaults
         document.querySelectorAll(".fixed-row").forEach((row) => {
           const index = Number(row.dataset.index);
-          const defaultValue = Number(row.dataset.default);
-          const buttons = row.querySelectorAll(".choice");
-          inputs[index].value = defaultValue;
-          buttons.forEach((button) => {
-            button.classList.toggle(
-              "active",
-              Number(button.dataset.value) === defaultValue,
-            );
-          });
+          const defaultValue = row.dataset.default;
+          const select = row.querySelector(".choice-select");
+
+          values[index].textContent = defaultValue;
+          select.value = defaultValue;
         });
+
         updateSum();
       }
 
       document.querySelectorAll(".fixed-row").forEach((row) => {
         const index = Number(row.dataset.index);
-        const buttons = row.querySelectorAll(".choice");
-        const input = inputs[index];
+        const valueEl = values[index];
+        const select = row.querySelector(".choice-select");
 
-        buttons.forEach((button) => {
-          button.addEventListener("click", () => {
-            if (navigator.vibrate) navigator.vibrate(10);
+        select.value = row.dataset.default;
+        valueEl.textContent = row.dataset.default;
 
-            input.value = Number(button.dataset.value);
-
-            buttons.forEach((b) => b.classList.remove("active"));
-            button.classList.add("active");
-
-            updateSum();
-          });
+        select.addEventListener("change", () => {
+          if (navigator.vibrate) navigator.vibrate(10);
+          valueEl.textContent = Number(select.value);
+          updateSum();
         });
       });
     </script>
